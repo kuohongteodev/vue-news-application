@@ -1,7 +1,19 @@
 <script setup lang="ts">
+
+import { useFetch } from '@/composable/fetch';
+import { onMounted } from 'vue';
+
+const { data, error } = useFetch('/top-headlines?country=us');
+
 defineProps<{
   msg: string
 }>()
+
+onMounted(() => {
+  console.log('data', data.value);
+  console.log('error', error.value);
+});
+
 </script>
 
 <template>
@@ -33,6 +45,7 @@ h3 {
 }
 
 @media (min-width: 1024px) {
+
   .greetings h1,
   .greetings h3 {
     text-align: left;
