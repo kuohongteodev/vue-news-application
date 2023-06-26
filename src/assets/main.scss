@@ -1,0 +1,6 @@
+@import './base.css';
+
+@use 'vuetify' with (
+  $utilities: false,
+  $color-pack: false
+);
