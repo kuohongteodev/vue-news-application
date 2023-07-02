@@ -2,8 +2,6 @@
 import type { News } from '@/model/news'
 import router from '@/router'
 import { reactive } from 'vue'
-import { computed } from 'vue'
-import { onMounted } from 'vue'
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 

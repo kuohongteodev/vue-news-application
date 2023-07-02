@@ -2,27 +2,28 @@ import type { News } from '@/model/news'
 
 interface State {
   selectedNews: News
+  visitedHeadlines: Array<String>
 }
 
 const state = (): State => {
   return {
-    selectedNews: {} as News
+    selectedNews: {} as News,
+    visitedHeadlines: []
   }
-}
-
-const getters = {
-
 }
 
 const mutations = {
-    updateSelectedNews(state: State, news: News) {
-        state.selectedNews = news;
+  updateSelectedNews(state: State, news: News) {
+    if (!state.visitedHeadlines.includes(news.title)) {
+      state.visitedHeadlines.push(news.title)
     }
+
+    state.selectedNews = news
   }
+}
 
 export default {
-    nsamespaced: true,
-    state,
-    getters,
-    mutations
+  nsamespaced: true,
+  state,
+  mutations
 }
