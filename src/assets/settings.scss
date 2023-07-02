@@ -1,5 +1,8 @@
 @use 'vuetify/settings' with (
   $color-pack: false,
-  $utilities: false,
-  $field-input-min-height: 32px
+  $utilities: false
 );
+
+input {
+  all: unset;
+}

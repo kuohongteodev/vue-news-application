@@ -16,15 +16,15 @@ const onSearch = () => {
 
 <template>
   <v-layout class="app-header">
-    <h1><a href="/">Tech News</a></h1>
-    <form class="search-bar" @submit="onSearch">
-      <v-text-field
-        v-model="searchValue"
-        placeholder="Search stories"
-        variant="underlined"
-      ></v-text-field>
-      <v-btn type="submit" @click="onSearch">Search</v-btn>
-    </form>
+    <h1><a href="/">News Application</a></h1>
+    <v-autocomplete
+      prepend-inner-icon="mdi-magnify"
+      label="Search stories"
+      :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+      color="primary"
+      class="search-bar"
+    >
+    </v-autocomplete>
   </v-layout>
 </template>
 
@@ -38,14 +38,8 @@ h1 {
   flex-shrink: 0;
 }
 
-.search-bar {
-  gap: 0.5rem;
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-input {
-  border: 0;
+/* Wrong color from Vuetify hence we need to overwrite */
+.v-field--variant-filled .v-field__overlay {
+  background-color: inherit !important;
 }
 </style>
