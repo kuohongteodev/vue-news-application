@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { News } from '@/model/news'
 import router from '@/router'
+import { reactive } from 'vue'
 import { computed } from 'vue'
 import { onMounted } from 'vue'
 import { ref } from 'vue'
@@ -19,6 +20,9 @@ const props = defineProps({
 
 const currentNewsHeadLine = ref(props.news.title)
 
+const validationRule = reactive({
+  max: (v: string) => (v && v.length <= 250) || 'Max 255 characters'
+})
 
 const handleClick = (item: News) => {
   store.commit('updateSelectedNews', item)
@@ -29,14 +33,13 @@ const handleEditHeadline = (item: News) => {
   dialog.value = true
   currentNewsHeadLine.value = item.title
 }
-
 </script>
 
 <template>
   <v-dialog v-model="dialog" width="full">
     <v-card>
       <v-card-title> Edit Headline </v-card-title>
-      <v-text-field v-model="currentNewsHeadLine"></v-text-field>
+      <v-text-field v-model="currentNewsHeadLine" :rules="[validationRule.max]"></v-text-field>
       <v-card-actions>
         <v-btn color="primary" block @click="dialog = false">Close Dialog</v-btn>
       </v-card-actions>
