@@ -4,13 +4,12 @@ import type { NewsResponse } from '@/model/api'
 import type { News } from '@/model/news'
 import { computed, ref } from 'vue'
 import ListView from '@/components/ListView.vue'
+import SpinnerComponent from '@/components/SpinnerComponent.vue'
 import { useStore } from 'vuex'
 
-const { result, fetchData } = useFetch<NewsResponse>(
+const { result, isLoading } = useFetch<NewsResponse>(
   'https://newsapi.org/v2/top-headlines?country=us&apiKey=099148be22804e849a0c6fe022b7cf5e'
 )
-
-fetchData()
 
 const store = useStore()
 
@@ -21,19 +20,23 @@ const handleShowVisitedHeadlines = () => {
 }
 
 const formatPageData = computed((): News[] => {
-  return result.value.articles.map((article) => {
-    return {
-      title: article.title,
-      urlToImage: article.urlToImage,
-      description: article.description,
-      content: article.content,
-      url: article.url
-    }
-  })
+  if (result.value.articles) {
+    return result.value.articles.map((article) => {
+      return {
+        title: article.title,
+        urlToImage: article.urlToImage,
+        description: article.description,
+        content: article.content,
+        url: article.url
+      }
+    })
+  }
+  return []
 })
 </script>
 
 <template>
+  <SpinnerComponent v-if="isLoading" />
   <v-dialog v-model="showVisitedHeadLines" width="auto">
     <v-card>
       <v-card-title> Visited Headlines </v-card-title>
@@ -43,7 +46,7 @@ const formatPageData = computed((): News[] => {
             {{ item }}
           </li>
         </ul>
-        <p v-else> No visited headlines </p>
+        <p v-else>No visited headlines</p>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="showVisitedHeadLines = false">Close</v-btn>

@@ -5,10 +5,11 @@ export function useFetch<T>(url: string) {
   const state = reactive<{ result: T; error: ErrorMessage; isLoading: boolean }>({
     result: {} as T,
     error: {} as ErrorMessage,
-    isLoading: true
+    isLoading: false
   })
 
   const fetchData = async () => {
+    state.isLoading = true
     try {
       const res = await fetch(url)
       const json = await res.json()
@@ -21,5 +22,7 @@ export function useFetch<T>(url: string) {
     }
   }
 
-  return { ...toRefs(state), fetchData }
+  fetchData();
+
+  return { ...toRefs(state)}
 }
