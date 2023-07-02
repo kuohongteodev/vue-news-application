@@ -1,13 +1,27 @@
 <script setup lang="ts">
-import ListItem from '@/components/ListItem.vue'
+import { useFetch } from '@/composables/fetch'
+import type { NewsResponse } from '@/model/api'
+import type { News } from '@/model/news'
+import { computed } from 'vue'
+import ListView from '@/components/ListView.vue'
+
+const { result, fetchData } = useFetch<NewsResponse>(
+  'https://newsapi.org/v2/top-headlines?country=us&apiKey=099148be22804e849a0c6fe022b7cf5e'
+)
+
+fetchData()
+
+const formatPageData = computed((): News[] => {
+  return result.value.articles.map((article) => {
+    return {
+      title: article.title,
+      urlToImage: article.urlToImage,
+      description: article.description
+    }
+  })
+})
 </script>
 
 <template>
-  <main>
-    <ListItem
-      title="haha"
-      url-to-image="https://www.bostonherald.com/wp-content/uploads/2022/08/AP22224836482643-1280x853-1.jpg?w=1024&h=682"
-      description="Democrats can cover their ears if they like, but reducing the deficit is going to require spending restraint, not using statistical games to low-ball the cost of new green handouts."
-    ></ListItem>
-  </main>
+  <ListView :news="formatPageData"> </ListView>
 </template>

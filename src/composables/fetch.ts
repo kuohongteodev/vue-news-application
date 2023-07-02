@@ -1,17 +1,25 @@
-import { ref } from "vue"
+import type { ErrorMessage } from '@/model/error'
+import { reactive, toRefs } from 'vue'
 
-export function useFetch(url: string) {
-  const data = ref(null)
-  const error = ref(null)
+export function useFetch<T>(url: string) {
+  const state = reactive<{ result: T; error: ErrorMessage; isLoading: boolean }>({
+    result: {} as T,
+    error: {} as ErrorMessage,
+    isLoading: true
+  })
 
-  fetch(url)
-    .then((res) => {
-      return res.json()
-    })
-    .then((result) => {
-      data.value = result
-    })
-    .catch((err) => {
-      error.value = err.message
-    })
+  const fetchData = async () => {
+    try {
+      const res = await fetch(url)
+      const json = await res.json()
+      state.result = json
+    } catch (error: unknown) {
+      const err = error as ErrorMessage
+      state.error = err
+    } finally {
+      state.isLoading = false
+    }
+  }
+
+  return { ...toRefs(state), fetchData }
 }
