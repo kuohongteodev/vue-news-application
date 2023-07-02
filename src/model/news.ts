@@ -2,10 +2,10 @@ export interface News {
 //   author: string
   title: string
   description: string
-//   url: string
+  url: string
   urlToImage: string
 //   publishedAt: string
-//   content: string
+  content: string
 }
 
 export interface Source {
