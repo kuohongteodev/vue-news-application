@@ -16,7 +16,9 @@ const onSearch = () => {
 
 <template>
   <v-layout class="app-header">
-    <h1><a href="/">News Application</a></h1>
+    <h1>
+      <router-link to="/">News App</router-link>
+    </h1>
     <v-autocomplete
       prepend-inner-icon="mdi-magnify"
       label="Search stories"
