@@ -2,10 +2,12 @@
 import { useFetch } from '@/composables/fetch'
 import type { NewsResponse } from '@/model/api'
 import type { News } from '@/model/news'
-import { computed, ref } from 'vue'
+import { computed, ref, unref } from 'vue'
 import ListView from '@/components/ListView.vue'
 import SpinnerComponent from '@/components/SpinnerComponent.vue'
 import { useStore } from 'vuex'
+import type { ErrorMessage } from '@/model/error'
+import ErrorComponent from '@/components/ErrorComponent.vue'
 
 const { result, isLoading } = useFetch<NewsResponse>(
   'https://newsapi.org/v2/top-headlines?country=us&apiKey=099148be22804e849a0c6fe022b7cf5e'
@@ -14,10 +16,7 @@ const { result, isLoading } = useFetch<NewsResponse>(
 const store = useStore()
 
 const showVisitedHeadLines = ref(false)
-
-const handleShowVisitedHeadlines = () => {
-  showVisitedHeadLines.value = true
-}
+const fetchError = ref<undefined | ErrorMessage>(undefined)
 
 const formatPageData = computed((): News[] => {
   if (result.value.articles) {
@@ -33,10 +32,24 @@ const formatPageData = computed((): News[] => {
   }
   return []
 })
+
+const handleShowVisitedHeadlines = () => {
+  showVisitedHeadLines.value = true
+}
+
+function handleError() {
+  const { error } = useFetch<NewsResponse>('https://newsapi.org/v2/sources?apiKey')
+  fetchError.value = error.value
+}
+
+const handleErrorClose = () => {
+  fetchError.value = undefined
+}
 </script>
 
 <template>
   <SpinnerComponent v-if="isLoading" />
+  <ErrorComponent v-if="fetchError" @close="handleErrorClose"> </ErrorComponent>
   <v-dialog v-model="showVisitedHeadLines" width="auto">
     <v-card>
       <v-card-title> Visited Headlines </v-card-title>
@@ -54,5 +67,7 @@ const formatPageData = computed((): News[] => {
     </v-card>
   </v-dialog>
   <v-btn @click="handleShowVisitedHeadlines"> Show Visited Headlines </v-btn>
-  <ListView :news="formatPageData"> </ListView>
+  <v-btn @click="handleError">Button To Show Error</v-btn>
+  <ListView :news="formatPageData" v-if="formatPageData.length"> </ListView>
+  <p v-if="!isLoading && !formatPageData.length">No headline found</p>
 </template>

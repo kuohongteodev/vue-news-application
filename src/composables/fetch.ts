@@ -2,6 +2,7 @@ import type { ErrorMessage } from '@/model/error'
 import { reactive, toRefs } from 'vue'
 
 export function useFetch<T>(url: string) {
+  console.log('fetch call')
   const state = reactive<{ result: T; error: ErrorMessage; isLoading: boolean }>({
     result: {} as T,
     error: {} as ErrorMessage,
@@ -10,19 +11,21 @@ export function useFetch<T>(url: string) {
 
   const fetchData = async () => {
     state.isLoading = true
-    try {
-      const res = await fetch(url)
-      const json = await res.json()
+    const res = await fetch(url)
+    const json = await res.json()
+    if (!res.ok) {
+      state.error = json
+    } else {
       state.result = json
-    } catch (error: unknown) {
-      const err = error as ErrorMessage
-      state.error = err
-    } finally {
-      state.isLoading = false
     }
+
+    console.log('state.result', state.result);
+    console.log('state.error', state.error);
+
+    state.isLoading = false
   }
 
-  fetchData();
+  fetchData()
 
-  return { ...toRefs(state)}
+  return { ...toRefs(state) }
 }
