@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { News } from '@/models/news'
-defineProps<Array<News>>()
+import { type News } from '@/model/news'
+
+defineProps<News[]>()
 </script>
 
 <template>
