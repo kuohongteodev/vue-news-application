@@ -1,8 +1,8 @@
 <script setup lang="ts">
 //get selected page from store
-import { useStore } from 'vuex'
 import { computed } from 'vue'
 import type { News } from '@/model/news'
+import { useStore } from 'vuex';
 
 const store = useStore()
 const selectedPage = computed<News>(() => store.state.user.selectedNews)

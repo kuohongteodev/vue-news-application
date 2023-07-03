@@ -3,7 +3,7 @@ import type { News } from '@/model/news'
 import router from '@/router'
 import { reactive } from 'vue'
 import { ref } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
 
 const store = useStore()
 
