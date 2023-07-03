@@ -9,7 +9,7 @@
 ##### Vuetify as styling framework
 ##### Vuex as state management
 
-#### Vue Router as routing assistant
+##### Vue Router as routing assistant
 
 ## Installing / Getting started
 
@@ -18,7 +18,7 @@
 You need to have NodeJS LTS installed on your device.
 
 ```shell
-git clone hhttps://github.com/kuohongteodev/vue-news-application.git
+git clone https://github.com/kuohongteodev/vue-news-application.git
 cd vue-news-application
 npm install
 ```
@@ -30,7 +30,7 @@ Running the command above will install required packages/libraries for the proje
 To run the project (server)
 
 ```shell
-cd pi-calculator
+cd vue-news-application
 npm run dev
 ```
 
