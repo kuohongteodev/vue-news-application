@@ -1,32 +1,18 @@
-<script setup lang="ts">
-import { onMounted, ref } from 'vue'
-
-const searchValue = ref('')
-
-onMounted(() => {
-  console.log('Mounted')
-})
-
-//method for onclick
-const onSearch = () => {
-  console.log(searchValue.value)
-  // @TODO: Add search functionality
-}
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <v-layout class="app-header">
     <h1>
       <router-link to="/">News App</router-link>
     </h1>
-    <v-autocomplete
+    <!-- <v-autocomplete
       prepend-inner-icon="mdi-magnify"
       label="Search stories"
       :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
       color="primary"
       class="search-bar"
     >
-    </v-autocomplete>
+    </v-autocomplete> -->
   </v-layout>
 </template>
 
